@@ -26,7 +26,7 @@ const Bot: FC<IBot> = ({ botInfo, setPage }) => {
           />
         </section>
         <a
-          href={botInfo.tgUrl}
+          href={botInfo.url}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Try Now!

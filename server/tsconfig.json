@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "commonjs",
+    "strict": false,
+    "esModuleInterop": true,
+    "outDir": "./dist"
+  },
+  "include": ["*.ts"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import Card from "./Card";
 import SpheronLogo from "../assets/spheron.png";
 import {
-  Bots,
   HealthStatusEnum,
   StatusEnum,
   colorMapping,
@@ -19,11 +18,12 @@ const Overview: FC<IOverview> = ({ setPage }) => {
     description: statusMapping[StatusEnum.NONE],
   });
   const [colorCode, setColorCode] = useState(colorMapping.none);
+  const [bots, setBots] = useState<any[]>([]);
 
   const checkBotStatus = async () => {
-    const promises = Bots.map(async (bot) => {
+    const promises = bots?.map(async (bot: any) => {
       try {
-        const response = await fetch(`${bot.url}/health-check`);
+        const response = await fetch(`${bot.healthUrl}/health-check`);
         const healthStatus = await response.json();
         return healthStatus.message;
       } catch (error) {
@@ -64,8 +64,13 @@ const Overview: FC<IOverview> = ({ setPage }) => {
   };
 
   useEffect(() => {
-    checkBotStatus();
-  }, [Bots]);
+    (async () => {
+      const response = await fetch(`http://localhost:8080/bots`);
+      const botsRes = await response.json();
+      setBots(botsRes);
+      checkBotStatus();
+    })();
+  }, []);
 
   return (
     <section>
@@ -80,8 +85,13 @@ const Overview: FC<IOverview> = ({ setPage }) => {
         {status.description}
       </div>
       <section className="flex flex-wrap">
-        {Bots.map((bot, i) => (
-          <Card name={bot.name} url={bot.url || ""} setPage={setPage} key={i} />
+        {bots.map((bot: any, i: number) => (
+          <Card
+            name={bot.name}
+            url={bot.healthUrl || ""}
+            setPage={setPage}
+            key={i}
+          />
         ))}
       </section>
     </section>
