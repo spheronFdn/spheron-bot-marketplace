@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from "react";
-import { Contract, ethers, Signer } from "ethers";
+import { ethers } from "ethers";
 import { SiweMessage } from "siwe";
 import Card from "./Card";
 import SpheronLogo from "../assets/spheron.png";
 import {
   HealthStatusEnum,
+  MARKETPLACE_SERVER,
   StatusEnum,
   colorMapping,
   statusMapping,
@@ -20,11 +21,18 @@ const Overview: FC<IOverview> = ({ bots }) => {
     description: statusMapping[StatusEnum.NONE],
   });
   const [colorCode, setColorCode] = useState(colorMapping.none);
+  const [healthStatuses, setHealthStatuses] = useState<any[]>([]);
 
   const checkBotStatus = async () => {
     const promises = bots?.map(async (bot: any) => {
       try {
         const response = await fetch(`${bot.healthUrl}/health-check`);
+
+        if (response.status === 429) {
+          console.error("Error: Too Many Requests. Please try again later.");
+          return;
+        }
+
         const healthStatus = await response.json();
         return healthStatus.message;
       } catch (error) {
@@ -35,6 +43,8 @@ const Overview: FC<IOverview> = ({ bots }) => {
         setColorCode(colorMapping[StatusEnum.ERROR]);
       }
     });
+
+    console.log(promises);
 
     const statuses = await Promise.all(promises);
 
@@ -69,7 +79,7 @@ const Overview: FC<IOverview> = ({ bots }) => {
   }, []);
 
   const createSiweMessage = async (address: string, statement: string) => {
-    const res = await fetch(`http://localhost:8080/user/nonce`, {
+    const res = await fetch(`${MARKETPLACE_SERVER}/user/nonce`, {
       credentials: "include",
     });
 
@@ -99,7 +109,7 @@ const Overview: FC<IOverview> = ({ bots }) => {
     const signature = await signer.signMessage(message);
     const walletName = "Metamask";
 
-    const res = await fetch(`http://localhost:8080/user/signin`, {
+    const res = await fetch(`${MARKETPLACE_SERVER}/user/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +119,8 @@ const Overview: FC<IOverview> = ({ bots }) => {
     });
 
     const response = await res.json();
-    console.log(response);
+    const stringifySession = JSON.stringify(response);
+    localStorage.setItem("session", stringifySession);
   };
 
   return (
@@ -132,9 +143,22 @@ const Overview: FC<IOverview> = ({ bots }) => {
       >
         {status.description}
       </div>
+      <div className="flex justify-end mb-4">
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={() => {}}
+        >
+          Add bot
+        </button>
+      </div>
       <section className="flex flex-wrap">
         {bots.map((bot: any, i: number) => (
-          <Card name={bot.name} url={bot.healthUrl || ""} key={i} />
+          <Card
+            name={bot.name}
+            url={bot.healthUrl || ""}
+            owner={bot.user}
+            key={i}
+          />
         ))}
       </section>
     </section>

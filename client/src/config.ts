@@ -1,3 +1,5 @@
+export const MARKETPLACE_SERVER = process.env.REACT_APP_MARKETPLACE_SERVER;
+
 export enum HealthStatusEnum {
   HEALTH_CHECK_PASSED = "Health check passed",
 }

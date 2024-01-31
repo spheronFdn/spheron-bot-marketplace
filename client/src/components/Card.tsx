@@ -5,21 +5,32 @@ import { StatusEnum, colorMapping, statusMapping } from "../config";
 interface ICard {
   name: string;
   url: string;
+  owner: string;
 }
 
-const Card: FC<ICard> = ({ name, url }) => {
+const Card: FC<ICard> = ({ name, url, owner }) => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<string>(statusMapping[StatusEnum.NONE]);
   const [colorCode, setColorCode] = useState(colorMapping.none);
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`${url}/health-check`);
-      const healthStatus = await response.json();
-      const healthType =
-        (healthStatus.type as keyof typeof colorMapping) || StatusEnum.NONE;
-      setColorCode(colorMapping[healthType]);
-      setStatus(statusMapping[healthType]);
+      try {
+        const response = await fetch(`${url}/health-check`);
+
+        if (response.status === 429) {
+          console.error("Too Many Requests. Please try again later.");
+          return;
+        }
+
+        const healthStatus = await response.json();
+        const healthType =
+          (healthStatus.type as keyof typeof colorMapping) || StatusEnum.NONE;
+        setColorCode(colorMapping[healthType]);
+        setStatus(statusMapping[healthType]);
+      } catch (error: any) {
+        console.error("Error fetching health status:", error);
+      }
     })();
   }, [url]);
 
@@ -34,6 +45,10 @@ const Card: FC<ICard> = ({ name, url }) => {
           <div>
             <span className="font-semibold">Status: </span>
             {status}
+          </div>
+          <div>
+            <span className="font-semibold">Owner: </span>
+            <span className="text-gray-500">{owner}</span>
           </div>
         </section>
         <div
