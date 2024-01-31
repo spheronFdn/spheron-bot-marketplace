@@ -1,17 +1,15 @@
 import { FC, useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { SiweMessage } from "siwe";
 import Card from "./Card";
 import SpheronLogo from "../assets/spheron.png";
 import {
   HealthStatusEnum,
-  MARKETPLACE_SERVER,
   ModalEnum,
   StatusEnum,
   colorMapping,
   statusMapping,
 } from "../config";
-import Modal from "./Modal";
+import { signin } from "../utils/signin";
+import { signout } from "../utils/signout";
 
 interface IOverview {
   bots: any;
@@ -25,6 +23,7 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
     description: statusMapping[StatusEnum.NONE],
   });
   const [colorCode, setColorCode] = useState(colorMapping.none);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
   const checkBotStatus = async () => {
     const promises = bots?.map(async (bot: any) => {
@@ -76,52 +75,22 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
   };
 
   useEffect(() => {
+    const session = localStorage.getItem("session");
+    if (session) {
+      setIsSignedIn(true);
+    } else {
+      setIsSignedIn(false);
+    }
     checkBotStatus();
   }, []);
 
-  const createSiweMessage = async (address: string, statement: string) => {
-    const res = await fetch(`${MARKETPLACE_SERVER}/user/nonce`, {
-      credentials: "include",
-    });
-
-    const domain = window.location.host;
-    const message = new SiweMessage({
-      domain,
-      address,
-      statement,
-      uri: origin,
-      version: "1",
-      chainId: 1,
-      nonce: await res.text(),
-    });
-    return message.prepareMessage();
-  };
-
-  const handleSignin = async () => {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    const message = await createSiweMessage(
-      address,
-      "Sign in with Ethereum to the app."
-    );
-    const signature = await signer.signMessage(message);
-    const walletName = "Metamask";
-
-    const res = await fetch(`${MARKETPLACE_SERVER}/user/signin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message, signature, address, walletName }),
-      credentials: "include",
-    });
-
-    const response = await res.json();
-    const stringifySession = JSON.stringify(response);
-    localStorage.setItem("session", stringifySession);
+  const handleAuth = async () => {
+    if (isSignedIn) {
+      await signout();
+    } else {
+      await signin();
+      setIsSignedIn(true);
+    }
   };
 
   const handleModal = () => {
@@ -138,9 +107,9 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
         </div>
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleSignin}
+          onClick={handleAuth}
         >
-          Sign In With Ethereum
+          {isSignedIn ? "Signout" : "Sign In With Ethereum"}
         </button>
       </div>
       <div

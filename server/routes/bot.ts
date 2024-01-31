@@ -1,10 +1,11 @@
 // routes/bot.ts
 import express from "express";
 import { Bot } from "../models/bot";
+import isAuthenticated from "../middlewares/authorization.middleware";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", isAuthenticated(), async (req, res) => {
   try {
     const bot = new Bot(req.body);
     await bot.save();
@@ -23,7 +24,7 @@ router.get("/getAllBots", async (req, res) => {
   }
 });
 
-router.get("/getUserBots/:userid", async (req, res) => {
+router.get("/getUserBots/:userid", isAuthenticated(), async (req, res) => {
   try {
     const userBots = await Bot.find({ user: req.params.userid });
     res.json(userBots);
@@ -32,9 +33,9 @@ router.get("/getUserBots/:userid", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAuthenticated(), async (req, res) => {
   try {
-    const bot = await Bot.findByIdAndUpdate(req.params.id, req.body, {
+    const bot = await Bot.findByIdAndUpdate((req as any).params.id, req.body, {
       new: true,
     });
     res.json(bot);
@@ -43,9 +44,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAuthenticated(), async (req, res) => {
   try {
-    const bot = await Bot.findByIdAndDelete(req.params.id);
+    const bot = await Bot.findByIdAndDelete((req as any).params.id);
     res.json({ message: "Bot deleted successfully", bot });
   } catch (error) {
     res.status(500).json({ error: error.message });

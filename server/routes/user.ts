@@ -1,6 +1,7 @@
 import express, { Request } from "express";
 import { generateNonce, SiweMessage } from "siwe";
 import { User } from "../models/user";
+import isAuthenticated from "../middlewares/authorization.middleware";
 
 const router = express.Router();
 
@@ -41,6 +42,20 @@ router.post("/signin", async (req, res) => {
       }`,
     })
   );
+});
+
+router.post("/signout", isAuthenticated(), async (req, res) => {
+  if (!(req as any).session.siwe) {
+    res.status(401).json({ message: "Already signed out" });
+    return;
+  }
+
+  (req as any).session.destroy((error: any) => {
+    if (error) {
+      throw error;
+    }
+  });
+  res.status(200);
 });
 
 export default router;
