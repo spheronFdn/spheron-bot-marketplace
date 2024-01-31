@@ -6,22 +6,25 @@ import SpheronLogo from "../assets/spheron.png";
 import {
   HealthStatusEnum,
   MARKETPLACE_SERVER,
+  ModalEnum,
   StatusEnum,
   colorMapping,
   statusMapping,
 } from "../config";
+import Modal from "./Modal";
 
 interface IOverview {
   bots: any;
+  setType: (type: ModalEnum.ADD) => void;
+  setIsModalVisible: (isModalVisible: boolean) => void;
 }
 
-const Overview: FC<IOverview> = ({ bots }) => {
+const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
   const [status, setStatus] = useState({
     indicator: StatusEnum.NONE,
     description: statusMapping[StatusEnum.NONE],
   });
   const [colorCode, setColorCode] = useState(colorMapping.none);
-  const [healthStatuses, setHealthStatuses] = useState<any[]>([]);
 
   const checkBotStatus = async () => {
     const promises = bots?.map(async (bot: any) => {
@@ -43,8 +46,6 @@ const Overview: FC<IOverview> = ({ bots }) => {
         setColorCode(colorMapping[StatusEnum.ERROR]);
       }
     });
-
-    console.log(promises);
 
     const statuses = await Promise.all(promises);
 
@@ -123,6 +124,11 @@ const Overview: FC<IOverview> = ({ bots }) => {
     localStorage.setItem("session", stringifySession);
   };
 
+  const handleModal = () => {
+    setType(ModalEnum.ADD);
+    setIsModalVisible(true);
+  };
+
   return (
     <section>
       <div className="mt-20 mb-14 flex items-center justify-between">
@@ -146,7 +152,7 @@ const Overview: FC<IOverview> = ({ bots }) => {
       <div className="flex justify-end mb-4">
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={() => {}}
+          onClick={handleModal}
         >
           Add bot
         </button>
