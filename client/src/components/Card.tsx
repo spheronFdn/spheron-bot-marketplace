@@ -1,13 +1,14 @@
 import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { StatusEnum, colorMapping, statusMapping } from "../config";
 
 interface ICard {
   name: string;
   url: string;
-  setPage: (page: string) => void;
 }
 
-const Card: FC<ICard> = ({ name, url, setPage }) => {
+const Card: FC<ICard> = ({ name, url }) => {
+  const navigate = useNavigate();
   const [status, setStatus] = useState<string>(statusMapping[StatusEnum.NONE]);
   const [colorCode, setColorCode] = useState(colorMapping.none);
 
@@ -26,7 +27,7 @@ const Card: FC<ICard> = ({ name, url, setPage }) => {
     <section className="w-1/2 p-2">
       <section
         className="border border-gray-300 rounded py-6 px-8 flex justify-between cursor-pointer hover:shadow-md"
-        onClick={() => setPage(name)}
+        onClick={() => navigate(`/${name}`)}
       >
         <section>
           <div className="text-3xl font-bold mb-8 text-gray-800">{name}</div>

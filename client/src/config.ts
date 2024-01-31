@@ -2,10 +2,6 @@ export enum HealthStatusEnum {
   HEALTH_CHECK_PASSED = "Health check passed",
 }
 
-export enum OverviewEnum {
-  OVERVIEW = "overview",
-}
-
 export enum StatusEnum {
   NONE = "none",
   MINOR = "minor",
