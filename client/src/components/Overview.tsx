@@ -3,7 +3,6 @@ import Card from "./Card";
 import SpheronLogo from "../assets/spheron.png";
 import {
   HealthStatusEnum,
-  ModalEnum,
   StatusEnum,
   colorMapping,
   statusMapping,
@@ -13,11 +12,9 @@ import { signout } from "../utils/signout";
 
 interface IOverview {
   bots: any;
-  setType: (type: ModalEnum) => void;
-  setIsModalVisible: (isModalVisible: boolean) => void;
 }
 
-const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
+const Overview: FC<IOverview> = ({ bots }) => {
   const [status, setStatus] = useState({
     indicator: StatusEnum.NONE,
     description: statusMapping[StatusEnum.NONE],
@@ -88,7 +85,7 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
     if (session) {
       setIsSignedIn(true);
       const parsedSession = JSON.parse(session);
-      setUser(parsedSession.data._id);
+      setUser(parsedSession.data.address);
     } else {
       setIsSignedIn(false);
     }
@@ -104,11 +101,6 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
       await signin();
       setIsSignedIn(true);
     }
-  };
-
-  const handleModal = () => {
-    setType(ModalEnum.ADD);
-    setIsModalVisible(true);
   };
 
   return (
@@ -150,14 +142,6 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
             </button>
           )}
         </div>
-        {user && (
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={handleModal}
-          >
-            Add bot
-          </button>
-        )}
       </div>
       <section className="flex flex-wrap">
         {allBots ? (

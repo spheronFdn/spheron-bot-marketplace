@@ -1,15 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ModalEnum, StatusEnum, colorMapping } from "../config";
+import { StatusEnum, colorMapping } from "../config";
 
 interface IBot {
   botInfo: any;
-  setType: (type: ModalEnum) => void;
-  setIsModalVisible: (isModalVisible: boolean) => void;
-  setBotId: (botId: string) => void;
 }
 
-const Bot: FC<IBot> = ({ botInfo, setType, setIsModalVisible, setBotId }) => {
+const Bot: FC<IBot> = ({ botInfo }) => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<any>({
     server: "NA",
@@ -41,12 +38,6 @@ const Bot: FC<IBot> = ({ botInfo, setType, setIsModalVisible, setBotId }) => {
     })();
   }, []);
 
-  const handleModal = () => {
-    setType(ModalEnum.DELETE);
-    setIsModalVisible(true);
-    setBotId(botInfo._id);
-  };
-
   return (
     <section>
       <section className="flex items-center justify-between mt-10 mb-8">
@@ -61,14 +52,11 @@ const Bot: FC<IBot> = ({ botInfo, setType, setIsModalVisible, setBotId }) => {
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: colorCode }}
           />
+          <div className="bg-green-500 text-white px-4 py-2 rounded text-xs font-bold">
+            Verified
+          </div>
         </section>
         <section className="flex">
-          <button
-            className="border border-red-600 text-red-600 px-4 py-2 rounded hover:bg-red-100 text-sm"
-            onClick={handleModal}
-          >
-            Delete bot
-          </button>
           <a
             href={botInfo.url}
             className="ms-4 bg-blue-500 text-white px-4 py-2 rounded"
@@ -79,7 +67,7 @@ const Bot: FC<IBot> = ({ botInfo, setType, setIsModalVisible, setBotId }) => {
       </section>
       <div>
         <img
-          src={`${botInfo.bannerUrl}/${botInfo.bannerFileName}`}
+          src={botInfo.bannerUrl}
           alt={botInfo.name}
           className="rounded shadow"
         />

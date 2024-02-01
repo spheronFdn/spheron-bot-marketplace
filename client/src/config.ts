@@ -11,12 +11,6 @@ export enum StatusEnum {
   ERROR = "error",
 }
 
-export enum ModalEnum {
-  ADD = "add",
-  UPDATE = "update",
-  DELETE = "delete",
-}
-
 export const statusMapping = {
   [StatusEnum.NONE]: "All Bots Operational",
   [StatusEnum.MINOR]: "Partial Outage",
