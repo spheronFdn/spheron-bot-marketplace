@@ -1,12 +1,51 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ModalEnum, StatusEnum, colorMapping } from "../config";
 
 interface IBot {
   botInfo: any;
+  setType: (type: ModalEnum) => void;
+  setIsModalVisible: (isModalVisible: boolean) => void;
+  setBotId: (botId: string) => void;
 }
 
-const Bot: FC<IBot> = ({ botInfo }) => {
+const Bot: FC<IBot> = ({ botInfo, setType, setIsModalVisible, setBotId }) => {
   const navigate = useNavigate();
+  const [status, setStatus] = useState<any>({
+    server: "NA",
+    bot: "NA",
+    database: "NA",
+  });
+  const [colorCode, setColorCode] = useState(colorMapping[StatusEnum.NONE]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(`${botInfo.healthUrl}/health-check`);
+
+        if (response.status === 429) {
+          setColorCode(colorMapping[StatusEnum.ERROR]);
+          console.error("Too Many Requests. Please try again later.");
+          return;
+        }
+
+        const healthStatus = await response.json();
+        const healthType =
+          (healthStatus.type as keyof typeof colorMapping) || StatusEnum.NONE;
+        setColorCode(colorMapping[healthType]);
+        setStatus(healthStatus.status);
+      } catch (error: any) {
+        setColorCode(colorMapping[StatusEnum.ERROR]);
+        console.error("Error fetching health status:", error.message);
+      }
+    })();
+  }, []);
+
+  const handleModal = () => {
+    setType(ModalEnum.DELETE);
+    setIsModalVisible(true);
+    setBotId(botInfo._id);
+  };
 
   return (
     <section>
@@ -20,24 +59,36 @@ const Bot: FC<IBot> = ({ botInfo }) => {
           <div className="font-bold text-2xl">{botInfo.name}</div>
           <div
             className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: "#2590EB" }}
+            style={{ backgroundColor: colorCode }}
           />
         </section>
-        <a
-          href={botInfo.url}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Try Now!
-        </a>
+        <section className="flex">
+          <button
+            className="border border-red-600 text-red-600 px-4 py-2 rounded hover:bg-red-100 text-sm"
+            onClick={handleModal}
+          >
+            Delete bot
+          </button>
+          <a
+            href={botInfo.url}
+            className="ms-4 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Try Now!
+          </a>
+        </section>
       </section>
       <div>
         <img
-          src={botInfo.banner}
+          src={`${botInfo.bannerUrl}/${botInfo.bannerFileName}`}
           alt={botInfo.name}
           className="rounded shadow"
         />
       </div>
-      <div className="font-bold text-2xl mt-20 mb-10">Overview</div>
+      <div className="mt-6">
+        <span className="font-semibold">Owner: </span>
+        {botInfo.user}
+      </div>
+      <div className="font-bold text-2xl mt-14 mb-10">Overview</div>
       <section className="flex gap-2 mb-20">
         <section className="w-4/6">
           <div
@@ -51,15 +102,15 @@ const Bot: FC<IBot> = ({ botInfo }) => {
           <section className="bg-gray-600 py-6 px-4 rounded w-3/4">
             <div className="flex justify-between mb-4">
               <span className="font-semibold">Server</span>
-              <span className="text-right">Operational</span>
+              <span className="text-right">{status.server}</span>
             </div>
             <div className="flex justify-between mb-4">
               <span className="font-semibold">Bot</span>
-              <span className="text-right">Operational</span>
+              <span className="text-right">{status.bot}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Database</span>
-              <span className="text-right">Operational</span>
+              <span className="text-right">{status.database}</span>
             </div>
           </section>
         </section>

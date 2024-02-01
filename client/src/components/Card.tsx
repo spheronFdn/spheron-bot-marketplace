@@ -19,6 +19,8 @@ const Card: FC<ICard> = ({ name, url, owner }) => {
         const response = await fetch(`${url}/health-check`);
 
         if (response.status === 429) {
+          setColorCode(colorMapping[StatusEnum.ERROR]);
+          setStatus(statusMapping[StatusEnum.ERROR]);
           console.error("Too Many Requests. Please try again later.");
           return;
         }
@@ -29,7 +31,9 @@ const Card: FC<ICard> = ({ name, url, owner }) => {
         setColorCode(colorMapping[healthType]);
         setStatus(statusMapping[healthType]);
       } catch (error: any) {
-        console.error("Error fetching health status:", error);
+        setColorCode(colorMapping[StatusEnum.ERROR]);
+        setStatus(statusMapping[StatusEnum.ERROR]);
+        console.error("Error fetching health status:", error.message);
       }
     })();
   }, [url]);

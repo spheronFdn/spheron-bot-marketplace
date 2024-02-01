@@ -35,7 +35,7 @@ router.get("/getUserBots/:userid", isAuthenticated(), async (req, res) => {
 
 router.put("/:id", isAuthenticated(), async (req, res) => {
   try {
-    const bot = await Bot.findByIdAndUpdate((req as any).params.id, req.body, {
+    const bot = await Bot.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     res.json(bot);
@@ -46,7 +46,7 @@ router.put("/:id", isAuthenticated(), async (req, res) => {
 
 router.delete("/:id", isAuthenticated(), async (req, res) => {
   try {
-    const bot = await Bot.findByIdAndDelete((req as any).params.id);
+    const bot = await Bot.findByIdAndDelete(req.params.id);
     res.json({ message: "Bot deleted successfully", bot });
   } catch (error) {
     res.status(500).json({ error: error.message });

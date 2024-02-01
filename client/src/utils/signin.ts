@@ -3,8 +3,7 @@ import { createSiweMessage } from "./createSiweMessage";
 import { getSigner } from "./signer";
 
 export const signin = async () => {
-  const signer = getSigner();
-  const address = await signer.getAddress();
+  const { signer, address } = await getSigner();
   const message = await createSiweMessage(
     address,
     "Sign in with Ethereum to the app."
@@ -24,4 +23,5 @@ export const signin = async () => {
   const response = await res.json();
   const stringifySession = JSON.stringify(response);
   localStorage.setItem("session", stringifySession);
+  window.location.href = "/";
 };

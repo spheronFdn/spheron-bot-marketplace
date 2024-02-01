@@ -9,6 +9,7 @@ const App = () => {
   const [bots, setBots] = useState<any[]>([]);
   const [type, setType] = useState<ModalEnum>(ModalEnum.ADD);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [botId, setBotId] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -37,13 +38,24 @@ const App = () => {
               <Route
                 key={bot.name}
                 path={`/${bot.name}`}
-                element={<Bot botInfo={bot} />}
+                element={
+                  <Bot
+                    botInfo={bot}
+                    setType={setType}
+                    setIsModalVisible={setIsModalVisible}
+                    setBotId={setBotId}
+                  />
+                }
               />
             ))}
           </Routes>
         </section>
         {isModalVisible && (
-          <Modal type={type} setIsModalVisible={setIsModalVisible} />
+          <Modal
+            type={type}
+            setIsModalVisible={setIsModalVisible}
+            botId={botId}
+          />
         )}
       </main>
     </Router>

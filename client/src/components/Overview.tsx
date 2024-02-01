@@ -13,7 +13,7 @@ import { signout } from "../utils/signout";
 
 interface IOverview {
   bots: any;
-  setType: (type: ModalEnum.ADD) => void;
+  setType: (type: ModalEnum) => void;
   setIsModalVisible: (isModalVisible: boolean) => void;
 }
 
@@ -24,53 +24,62 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
   });
   const [colorCode, setColorCode] = useState(colorMapping.none);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [allBots, setAllBots] = useState<boolean>(true);
+  const [user, setUser] = useState<string>("");
 
   const checkBotStatus = async () => {
-    const promises = bots?.map(async (bot: any) => {
-      try {
-        const response = await fetch(`${bot.healthUrl}/health-check`);
+    try {
+      const promises = bots?.map(async (bot: any) => {
+        try {
+          const response = await fetch(`${bot.healthUrl}/health-check`);
 
-        if (response.status === 429) {
-          console.error("Error: Too Many Requests. Please try again later.");
-          return;
+          if (response.status === 429) {
+            console.error("Error: Too Many Requests. Please try again later.");
+            return;
+          }
+
+          const healthStatus = await response.json();
+          return healthStatus.message;
+        } catch (error) {
+          console.error("Error fetching health status:", error);
+          throw error; // Re-throw the error to mark the promise as rejected
         }
+      });
 
-        const healthStatus = await response.json();
-        return healthStatus.message;
-      } catch (error) {
+      const statuses = await Promise.allSettled(promises);
+
+      const operationalCount = statuses.filter(
+        (status: any) => status.value === HealthStatusEnum.HEALTH_CHECK_PASSED
+      ).length;
+      const totalCount = statuses.length;
+
+      if (operationalCount === totalCount) {
         setStatus({
-          indicator: StatusEnum.ERROR,
-          description: statusMapping[StatusEnum.ERROR],
+          indicator: StatusEnum.NONE,
+          description: statusMapping[StatusEnum.NONE],
         });
-        setColorCode(colorMapping[StatusEnum.ERROR]);
+        setColorCode(colorMapping[StatusEnum.NONE]);
+      } else if (operationalCount === 0) {
+        setStatus({
+          indicator: StatusEnum.MAJOR,
+          description: statusMapping[StatusEnum.MAJOR],
+        });
+        setColorCode(colorMapping[StatusEnum.MAJOR]);
+      } else {
+        setStatus({
+          indicator: StatusEnum.MINOR,
+          description: statusMapping[StatusEnum.MINOR],
+        });
+        setColorCode(colorMapping[StatusEnum.MINOR]);
       }
-    });
-
-    const statuses = await Promise.all(promises);
-
-    const operationalCount = statuses.filter(
-      (status) => status === HealthStatusEnum.HEALTH_CHECK_PASSED
-    ).length;
-    const totalCount = statuses.length;
-
-    if (operationalCount === totalCount) {
+    } catch (error) {
+      // Handle the error after all promises are settled
       setStatus({
-        indicator: StatusEnum.NONE,
-        description: statusMapping[StatusEnum.NONE],
+        indicator: StatusEnum.ERROR,
+        description: statusMapping[StatusEnum.ERROR],
       });
-      setColorCode(colorMapping[StatusEnum.NONE]);
-    } else if (operationalCount === Number(0)) {
-      setStatus({
-        indicator: StatusEnum.MAJOR,
-        description: statusMapping[StatusEnum.MAJOR],
-      });
-      setColorCode(colorMapping[StatusEnum.MAJOR]);
-    } else {
-      setStatus({
-        indicator: StatusEnum.MINOR,
-        description: statusMapping[StatusEnum.MINOR],
-      });
-      setColorCode(colorMapping[StatusEnum.MINOR]);
+      setColorCode(colorMapping[StatusEnum.ERROR]);
+      console.error("Error in checkBotStatus:", error);
     }
   };
 
@@ -78,11 +87,15 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
     const session = localStorage.getItem("session");
     if (session) {
       setIsSignedIn(true);
+      const parsedSession = JSON.parse(session);
+      setUser(parsedSession.data._id);
     } else {
       setIsSignedIn(false);
     }
-    checkBotStatus();
-  }, []);
+    (async () => {
+      await checkBotStatus();
+    })();
+  }, [bots]);
 
   const handleAuth = async () => {
     if (isSignedIn) {
@@ -118,23 +131,60 @@ const Overview: FC<IOverview> = ({ bots, setType, setIsModalVisible }) => {
       >
         {status.description}
       </div>
-      <div className="flex justify-end mb-4">
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleModal}
-        >
-          Add bot
-        </button>
+      <div className="flex justify-between mb-4">
+        <div>
+          <button
+            className={`border-black px-4 py-2 ${allBots && "border-b"}`}
+            onClick={() => setAllBots(true)}
+          >
+            All bots
+          </button>
+          {user && (
+            <button
+              className={`ms-3 border-black px-4 py-2 ${
+                !allBots && "border-b"
+              }`}
+              onClick={() => setAllBots(false)}
+            >
+              My bots
+            </button>
+          )}
+        </div>
+        {user && (
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={handleModal}
+          >
+            Add bot
+          </button>
+        )}
       </div>
       <section className="flex flex-wrap">
-        {bots.map((bot: any, i: number) => (
-          <Card
-            name={bot.name}
-            url={bot.healthUrl || ""}
-            owner={bot.user}
-            key={i}
-          />
-        ))}
+        {allBots ? (
+          <>
+            {bots.map((bot: any, i: number) => (
+              <Card
+                name={bot.name}
+                url={bot.healthUrl || ""}
+                owner={bot.user}
+                key={i}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            {bots
+              .filter((bot: any) => bot.user === user)
+              .map((bot: any, i: number) => (
+                <Card
+                  name={bot.name}
+                  url={bot.healthUrl || ""}
+                  owner={bot.user}
+                  key={i}
+                />
+              ))}
+          </>
+        )}
       </section>
     </section>
   );

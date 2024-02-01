@@ -10,6 +10,7 @@ const botSchema = new mongoose.Schema({
   url: String,
   healthUrl: String,
   bannerUrl: String,
+  bannerFileName: String,
 });
 
 const Bot = mongoose.model("Bot", botSchema);

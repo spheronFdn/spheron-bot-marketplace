@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { upload } from "@spheron/browser-upload";
 import { IModal } from "../Modal";
 import { MARKETPLACE_SERVER } from "../../config";
 import { signout } from "../../utils/signout";
@@ -10,7 +11,9 @@ const AddModal: FC<IModal> = ({ type, setIsModalVisible }) => {
     url: "",
     healthUrl: "",
     bannerUrl: null,
+    bannerFileName: "",
   });
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
@@ -20,12 +23,32 @@ const AddModal: FC<IModal> = ({ type, setIsModalVisible }) => {
     }));
   };
 
-  const handleBannerImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    setFormData((prevData: any) => ({
-      ...prevData,
-      bannerUrl: "file",
-    }));
+  const handleBannerImageChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setUploading(true);
+    const files = e.target.files || [];
+    try {
+      const response = await fetch(
+        `${MARKETPLACE_SERVER}/user/initiate-upload`
+      );
+      const responseJson = await response.json();
+      const token = responseJson.uploadToken;
+
+      const uploadResult = await upload(files, {
+        token,
+      });
+
+      setFormData((prevData: any) => ({
+        ...prevData,
+        bannerUrl: uploadResult.protocolLink,
+        bannerFileName: files[0]?.name || "",
+      }));
+      console.log("Banner upload successful");
+    } catch (error: any) {
+      console.error("Error: ", error);
+    }
+    setUploading(false);
   };
 
   const handleSubmit = async () => {
@@ -34,18 +57,20 @@ const AddModal: FC<IModal> = ({ type, setIsModalVisible }) => {
     try {
       const session = JSON.parse(localStorage.getItem("session") || "");
       if (session) {
-        // signout if sesssion is expired
+        // signout if session is expired
         if (new Date(session.cookie?.expires) < new Date()) {
           await signout();
         }
 
+        const data = { ...formData, user: session.data._id };
         const response = await fetch(`${MARKETPLACE_SERVER}/bot`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${session.nonce}`,
+            Authorization: `Bearer ${session.session.nonce}`,
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(data),
+          credentials: "include",
         });
 
         if (!response.ok) {
@@ -141,7 +166,7 @@ const AddModal: FC<IModal> = ({ type, setIsModalVisible }) => {
               Health Check URL:
               <input
                 type="text"
-                name="healthCheckUrl"
+                name="healthUrl"
                 value={formData.healthUrl}
                 onChange={handleChange}
                 className="w-full mt-1 p-2 border rounded-md bg-gray-200 text-gray-800"
@@ -173,9 +198,19 @@ const AddModal: FC<IModal> = ({ type, setIsModalVisible }) => {
               data-modal-hide={type}
               type="button"
               className="ms-3 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              onClick={handleSubmit}
+              onClick={() => !uploading && handleSubmit()}
             >
-              Add
+              {uploading ? (
+                <div className="flex justify-center items-center">
+                  <div
+                    className="h-5 w-5 mr-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] text-white"
+                    role="status"
+                  />{" "}
+                  Upload in progress...
+                </div>
+              ) : (
+                "Add"
+              )}
             </button>
           </div>
         </div>

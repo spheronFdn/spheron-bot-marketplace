@@ -7,9 +7,10 @@ import DeleteModal from "./modals/DeleteModal";
 export interface IModal {
   type: ModalEnum;
   setIsModalVisible: (isModalVisible: boolean) => void;
+  botId?: string;
 }
 
-const Modal: FC<IModal> = ({ type, setIsModalVisible }) => {
+const Modal: FC<IModal> = ({ type, setIsModalVisible, botId }) => {
   const modalComponents: { [key in ModalEnum]: React.FC<IModal> } = {
     [ModalEnum.ADD]: ({ type, setIsModalVisible }) => (
       <AddModal type={type} setIsModalVisible={setIsModalVisible} />
@@ -18,7 +19,11 @@ const Modal: FC<IModal> = ({ type, setIsModalVisible }) => {
       <UpdateModal type={type} setIsModalVisible={setIsModalVisible} />
     ),
     [ModalEnum.DELETE]: ({ type, setIsModalVisible }) => (
-      <DeleteModal type={type} setIsModalVisible={setIsModalVisible} />
+      <DeleteModal
+        type={type}
+        setIsModalVisible={setIsModalVisible}
+        botId={botId}
+      />
     ),
   };
 
