@@ -21,7 +21,7 @@ We built the Spheron Bot Marketplace with the following goals in mind:
 
 2. **Add Your Bot Information:**
 
-    - In your branch, create a new JSON file in the bots directory.
+    - In your branch, update the `bots.json` file in the **src** directory.
     - Follow the JSON format specified below to provide details about your bot.
 
 3. **Submit Pull Request:**
