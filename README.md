@@ -14,25 +14,25 @@ We built the Spheron Bot Marketplace with the following goals in mind:
 
 ## How to List Your Bot on Spheron Bot Marketplace
 
-1. Create a Pull Request:
+1. **Create a Pull Request:**
 
-- Fork the Spheron Bot Marketplace repository to your GitHub account.
-- Create a new branch in your forked repository for your bot.
+    - Fork the Spheron Bot Marketplace repository to your GitHub account.
+    - Create a new branch in your forked repository for your bot.
 
-2. Add Your Bot Information:
+2. **Add Your Bot Information:**
 
-- In your branch, create a new JSON file in the bots directory.
-- Follow the JSON format specified below to provide details about your bot.
+    - In your branch, create a new JSON file in the bots directory.
+    - Follow the JSON format specified below to provide details about your bot.
 
-3. Submit Pull Request:
+3. **Submit Pull Request:**
 
-- Commit your changes to your branch and push it to your forked repository.
-- Create a Pull Request (PR) from your branch to the main Spheron Bot Marketplace repository.
+    - Commit your changes to your branch and push it to your forked repository.
+    - Create a Pull Request (PR) from your branch to the main Spheron Bot Marketplace repository.
 
-4. Verification Process:
+4. **Verification Process:**
 
-- Our team will review the PR and verify that your bot details follow the required format.
-- Once verified, your bot will be listed on the Spheron Bot Marketplace.
+    - Our team will review the PR and verify that your bot details follow the required format.
+    - Once verified, your bot will be listed on the Spheron Bot Marketplace.
 
 ### JSON Format for Bot Information
 
