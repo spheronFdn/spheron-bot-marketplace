@@ -31,6 +31,7 @@ The Spheron Bot Marketplace allows users to list their bots on the platform, mak
   "description": "<Bot Description>",
   "url": "<Bot URL>",
   "healthUrl": "<Bot Health Check URL>",
+  "bannerUrl": "<Bot Banner URL>",
   "socialProfile": "<Link to your Social Profile>"
 }
 ```
@@ -42,6 +43,7 @@ The Spheron Bot Marketplace allows users to list their bots on the platform, mak
 - **description:** A brief description of your bot.
 - **url:** The URL associated with your bot.
 - **healthUrl:** The health check URL for monitoring bot status.
+- **bannerUrl:** Link to the banner to be displayed on the marketplace for your bot.
 - **socialProfile:** A link to any of your Social Profile.
 
 ### Open Source Requirement
