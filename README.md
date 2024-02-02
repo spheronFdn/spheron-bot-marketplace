@@ -1,10 +1,16 @@
 # Spheron Bot Marketplace
 
-## Description
-
-The Spheron Bot Marketplace allows users to list their bots on the platform, making them accessible to a wider audience. Here's a step-by-step guide on how to list your bot on our marketplace.
+The Spheron Bot Marketplace is a dedicated platform for bot creators to showcase and promote their innovative creations. We provide a single, verified space for users to discover a diverse range of open-source bots, fostering a community of high-quality and cutting-edge projects.
 
 ### Why did we build this?
+We built the Spheron Bot Marketplace with the following goals in mind:
+
+1. **Provide Exposure for Bot Creators:**
+    - We wanted to offer a dedicated platform for bot creators to showcase and promote the incredible bots they are building.
+    - The marketplace serves as a central hub where users can discover and explore a variety of bots created by talented developers.
+2. **Single Platform for Verified Bots:**
+    - Our aim is to create a single, trustworthy platform where users can find verified bots.
+    - By curating and verifying the bots listed on our marketplace, we ensure a high-quality selection for users.
 
 ## How to List Your Bot on Spheron Bot Marketplace
 
@@ -70,5 +76,3 @@ For help, discussions or any other queries: [Join our Community](https://communi
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Acknowledgments
