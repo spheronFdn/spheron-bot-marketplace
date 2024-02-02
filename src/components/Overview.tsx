@@ -127,7 +127,7 @@ const Overview: FC<IOverview> = ({ bots }) => {
               <Card
                 name={bot.name}
                 url={bot.healthUrl || ""}
-                owner={bot.user}
+                owner={bot.address}
                 key={i}
               />
             ))}
@@ -135,12 +135,12 @@ const Overview: FC<IOverview> = ({ bots }) => {
         ) : (
           <>
             {bots
-              .filter((bot: any) => bot.user === user)
+              .filter((bot: any) => bot.address === user)
               .map((bot: any, i: number) => (
                 <Card
                   name={bot.name}
                   url={bot.healthUrl || ""}
-                  owner={bot.user}
+                  owner={bot.address}
                   key={i}
                 />
               ))}

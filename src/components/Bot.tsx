@@ -74,7 +74,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
       </div>
       <div className="mt-6">
         <span className="font-semibold">Owner: </span>
-        {botInfo.user}
+        {botInfo.address}
       </div>
       <div className="font-bold text-2xl mt-14 mb-10">Overview</div>
       <section className="flex gap-2 mb-20">
