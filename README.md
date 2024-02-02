@@ -2,7 +2,7 @@
 
 The Spheron Bot Marketplace is a dedicated platform for bot creators to showcase and promote their innovative creations. We provide a single, verified space for users to discover a diverse range of open-source bots, fostering a community of high-quality and cutting-edge projects.
 
-### Why did we build this?
+## Why did we build this?
 We built the Spheron Bot Marketplace with the following goals in mind:
 
 1. **Provide Exposure for Bot Creators:**
