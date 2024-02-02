@@ -18,7 +18,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(`${botInfo.healthUrl}/health-check`);
+        const response = await fetch(botInfo.healthUrl);
 
         if (response.status === 429) {
           setColorCode(colorMapping[StatusEnum.ERROR]);

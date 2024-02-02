@@ -6,7 +6,7 @@
     "name": "Avail",
     "description": "Avail is a cutting-edge platform designed for the next wave of apps and secure rollups. It excels in security, letting light clients easily check data using a peer-to-peer network. Developers love Avail for its simple integration—no worries about validator sets or tokenomics. With Avail's strong data checks and security features, building fraud-proof blockchain apps is easy.\n\n    Avail makes transactions smooth by focusing on order and publishing. Users can check block data without downloading the whole thing, making it efficient. Avail is flexible, supporting different environments like EVM and WASM. This means developers have a solid base for various blockchain apps.\n    \n    Ready to spin your next Avail node? See how you can spin and manage your Avail node on dCloud in seconds with Spheron powered by Akash Network.",
     "url": "https://t.me/AvailNodeDeployerBot",
-    "healthUrl": "http://piqoa0e8b993vb4v73u1bgqi38.ingress.us-west.spheron.wiki",
+    "healthUrl": "http://piqoa0e8b993vb4v73u1bgqi38.ingress.us-west.spheron.wiki/health-check",
     "bannerUrl": "https://bafybeic66ia64xvwseeubta7yb7n4jgx6deanduk7nv6obngl2w3ncbosi.ipfs.sphn.link/avail-banner.png",
     "socialProfile": "https://twitter.com/spheronFDN"
   },
@@ -17,7 +17,7 @@
     "name": "Shardeum",
     "description": "Shardeum is an EVM based L1 that uses dynamic state sharding to achieve linearly scalability while attaining atomic composability across shards. This means Shardeum can increase its TPS capacity with each validator added to the network to retain low fees forever.\n\n    Shardeum provides the highest throughput capacity of any EVM based L1 without sacrificing on decentralization. Developers can deploy and interact with Solidity or Vyper contracts without special considerations for sharding, since contracts are deployed to unique shards automatically while retaining atomic composability across all shards.\n    \n    Ready to spin your next Shardeum Validator node, and earn SHM? See how you can spin and manage your Shardeum Validator node on dCloud in seconds with Spheron powered by Akash Network.",
     "url": "https://t.me/SPHN_SHM_NODE_BOT",
-    "healthUrl": "http://td0igitnr1coh1t1akshqk0ktc.ingress.us-east.spheron.wiki",
+    "healthUrl": "http://td0igitnr1coh1t1akshqk0ktc.ingress.us-east.spheron.wiki/health-check",
     "bannerUrl": "https://bafybeihidiuu2azpc7wixp7xxlj4nixdd7gz5adta7uj7um7cyxhmmvsba.ipfs.sphn.link/shardeum-banner.png",
     "socialProfile": "https://twitter.com/spheronFDN"
   },
@@ -28,7 +28,7 @@
     "name": "Celestia",
     "description": "Celestia is a modular data availability (DA) network that securely scales with the number of users, making it easy for anyone to launch their own blockchain.\n\nRollups and L2s use Celestia as a network for publishing and making transaction data available for anyone to download. For them, Celestia provides high-throughput DA that can be verified easily with a light node.\n\nReady to spin your next Celestia Light Node? See how you can spin and manage your Celestia Light Node on dCloud in seconds with Spheron.",
     "url": "https://t.me/sphn_celestia_node_bot",
-    "healthUrl": "http://42pdjl01o9akt7lbo25b5upr98.ingress.us-east.spheron.wiki",
+    "healthUrl": "http://42pdjl01o9akt7lbo25b5upr98.ingress.us-east.spheron.wiki/health-check",
     "bannerUrl": "https://bafybeighvubputovzhchzbey6bi5eme4unyxl44jtwogac64oadkxrrzoe.ipfs.sphn.link/celestia-banner.png",
     "socialProfile": "https://twitter.com/spheronFDN"
   }

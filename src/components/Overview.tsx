@@ -26,7 +26,7 @@ const Overview: FC<IOverview> = ({ bots }) => {
     try {
       const promises = bots?.map(async (bot: any) => {
         try {
-          const response = await fetch(`${bot.healthUrl}/health-check`);
+          const response = await fetch(bot.healthUrl);
 
           if (response.status === 429) {
             console.error("Error: Too Many Requests. Please try again later.");

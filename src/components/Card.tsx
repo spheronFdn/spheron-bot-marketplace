@@ -16,7 +16,7 @@ const Card: FC<ICard> = ({ name, url, owner }) => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(`${url}/health-check`);
+        const response = await fetch(url);
 
         if (response.status === 429) {
           setColorCode(colorMapping[StatusEnum.ERROR]);
