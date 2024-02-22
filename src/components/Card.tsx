@@ -1,14 +1,16 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StatusEnum, colorMapping, statusMapping } from "../config";
+import { truncate } from "../utils/truncate";
 
 interface ICard {
   name: string;
   url: string;
   owner: string;
+  logoUrl: string;
 }
 
-const Card: FC<ICard> = ({ name, url, owner }) => {
+const Card: FC<ICard> = ({ name, url, owner, logoUrl }) => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<string>(statusMapping[StatusEnum.NONE]);
   const [colorCode, setColorCode] = useState(colorMapping.none);
@@ -39,26 +41,35 @@ const Card: FC<ICard> = ({ name, url, owner }) => {
   }, [url]);
 
   return (
-    <section className="w-1/2 p-2">
+    <section className="w-1/5 p-2">
       <section
-        className="border border-gray-300 rounded py-6 px-8 flex justify-between cursor-pointer hover:shadow-md"
+        className="border border-gray-300 rounded flex-col justify-between cursor-pointer shadow hover:shadow-md h-52 min-h-52"
         onClick={() => navigate(`/${name}`)}
       >
-        <section>
-          <div className="text-3xl font-bold mb-8 text-gray-800">{name}</div>
-          <div>
-            <span className="font-semibold">Status: </span>
-            {status}
+        <div className="bg-black rounded-t flex justify-center items-center h-1/2">
+          <img src={logoUrl} alt="avail-logo" />
+        </div>
+        <section className="px-4 text-[#2C2C30]">
+          <div className="py-2 text-xl font-medium">{name}</div>
+          <div className="flex items-center gap-7 w-full">
+            <div className="text-xs font-semibold uppercase tracking-wide">
+              Status:{" "}
+            </div>
+            <div className="text-sm flex items-center gap-1">
+              <div
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: colorCode }}
+              />
+              {status}
+            </div>
           </div>
-          <div>
-            <span className="font-semibold">Owner: </span>
-            <span className="text-gray-500">{owner}</span>
+          <div className="flex items-center gap-7 w-full">
+            <div className="text-xs font-semibold uppercase tracking-wide">
+              Owner:{" "}
+            </div>
+            <div className="text-sm">{truncate(owner)}</div>
           </div>
         </section>
-        <div
-          className="w-4 h-4 rounded-full"
-          style={{ backgroundColor: colorCode }}
-        />
       </section>
     </section>
   );
