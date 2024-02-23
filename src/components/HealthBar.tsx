@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import HealthIcon from "../assets/health.svg";
 import {
   HealthStatusEnum,
   StatusEnum,
@@ -27,12 +26,10 @@ const HealthBar: FC<IHealthBar> = ({ bots }) => {
       const promises = bots?.map(async (bot: any) => {
         try {
           const response = await fetch(bot.healthUrl);
-
           if (response.status === 429) {
             console.error("Error: Too Many Requests. Please try again later.");
             return;
           }
-
           const healthStatus = await response.json();
           return healthStatus.message;
         } catch (error) {
@@ -42,34 +39,26 @@ const HealthBar: FC<IHealthBar> = ({ bots }) => {
       });
 
       const statuses = await Promise.allSettled(promises);
-
       const operationalCount = statuses.filter(
         (status: any) => status.value === HealthStatusEnum.HEALTH_CHECK_PASSED
       ).length;
       const totalCount = statuses.length;
 
+      let statusEnum;
       if (operationalCount === totalCount) {
-        setStatus({
-          indicator: StatusEnum.NONE,
-          description: allBotStatusMapping[StatusEnum.NONE],
-        });
-        setColorCode(colorMapping[StatusEnum.NONE]);
-        setBackgroundColor(backgroundColorMapping[StatusEnum.NONE]);
+        statusEnum = StatusEnum.NONE;
       } else if (operationalCount === 0) {
-        setStatus({
-          indicator: StatusEnum.MAJOR,
-          description: allBotStatusMapping[StatusEnum.MAJOR],
-        });
-        setColorCode(colorMapping[StatusEnum.MAJOR]);
-        setBackgroundColor(backgroundColorMapping[StatusEnum.MAJOR]);
+        statusEnum = StatusEnum.MAJOR;
       } else {
-        setStatus({
-          indicator: StatusEnum.MINOR,
-          description: allBotStatusMapping[StatusEnum.MINOR],
-        });
-        setColorCode(colorMapping[StatusEnum.MINOR]);
-        setBackgroundColor(backgroundColorMapping[StatusEnum.MINOR]);
+        statusEnum = StatusEnum.MINOR;
       }
+
+      setStatus({
+        indicator: statusEnum,
+        description: allBotStatusMapping[statusEnum],
+      });
+      setColorCode(colorMapping[statusEnum]);
+      setBackgroundColor(backgroundColorMapping[statusEnum]);
     } catch (error) {
       // handle the error after all promises are settled
       setStatus({
@@ -90,7 +79,28 @@ const HealthBar: FC<IHealthBar> = ({ bots }) => {
       className="mt-4 mb-6 py-2 px-5 w-full rounded text-xs font-semibold uppercase tracking-wide flex items-center gap-1"
       style={{ backgroundColor: backgroundColor, color: colorCode }}
     >
-      <img src={HealthIcon} alt="health-icon" />
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M18.6666 12H15.9999L13.9999 18L9.99992 6L7.99992 12H5.33325"
+          stroke="#1C8056"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M18.6666 12H15.9999L13.9999 18L9.99992 6L7.99992 12H5.33325"
+          stroke={colorCode}
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
       <div>{status.description}</div>
     </section>
   );
