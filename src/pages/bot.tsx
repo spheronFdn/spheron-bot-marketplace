@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StatusEnum, colorMapping } from "../config";
-import { truncate } from "../utils/truncate";
 
 interface IBot {
   botInfo: any;
@@ -50,7 +49,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
               </svg>
             </div>
             <div className="font-bold text-4xl">{botInfo.name}</div>
-            <div className="bg-[#1C8056] text-white p-2 rounded text-sm font-semibold">
+            <div className="bg-[#1C8056] text-white p-1 rounded text-sm font-semibold">
               Verified
             </div>
           </section>
@@ -59,7 +58,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
               <div className="text-xs font-semibold uppercase tracking-wide">
                 Status:{" "}
               </div>
-              <div className="text-sm flex items-center gap-1">
+              <div className="text-sm flex items-center gap-1 uppercase">
                 <div
                   className="w-2 h-2 rounded-full"
                   style={{ backgroundColor: colorCode }}
@@ -71,7 +70,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
               <div className="text-xs font-semibold uppercase tracking-wide">
                 Owner:{" "}
               </div>
-              <div className="text-sm">{truncate(botInfo.address)}</div>
+              <div className="text-sm">{botInfo.address}</div>
             </div>
           </section>
         </section>
@@ -102,9 +101,9 @@ const Bot: FC<IBot> = ({ botInfo }) => {
           />
         </section>
         <section className="text-white w-64 ml-10 flex justify-end h-32">
-          <section className="flex flex-col gap-3 p-5 bg-[#ECECEE] w-full h-full rounded">
+          <section className="flex flex-col gap-3 p-5 bg-[#ECECEE] w-full h-full rounded uppercase">
             <div className="flex justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wide text-[#2C2C30]">
+              <span className="text-xs font-semibold tracking-wide text-[#2C2C30]">
                 Server
               </span>
               <span
@@ -115,7 +114,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wide text-[#2C2C30]">
+              <span className="text-xs font-semibold tracking-wide text-[#2C2C30]">
                 Bot
               </span>
               <span
@@ -126,7 +125,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wide text-[#2C2C30]">
+              <span className="text-xs font-semibold tracking-wide text-[#2C2C30]">
                 Database
               </span>
               <span

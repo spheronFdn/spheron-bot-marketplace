@@ -41,7 +41,7 @@ const Card: FC<ICard> = ({ name, url, owner, logoUrl }) => {
   }, [url]);
 
   return (
-    <section className="w-1/5 p-2">
+    <section className="p-2 w-1/5 min-w-64 max-w-80">
       <section
         className="border border-gray-300 rounded flex-col justify-between cursor-pointer shadow hover:shadow-md h-52 min-h-52"
         onClick={() => navigate(`/${name}`)}

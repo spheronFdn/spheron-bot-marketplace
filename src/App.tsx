@@ -6,24 +6,20 @@ import Layout from "./components/Layout";
 
 const App = () => {
   return (
-    <Router>
-      <Layout>
-        <main className="flex justify-center">
-          <section className="w-full mx-16">
-            <Routes>
-              <Route path="/" element={<Overview bots={Bots} />} />
-              {Bots.map((bot: any) => (
-                <Route
-                  key={bot.name}
-                  path={`/${bot.name}`}
-                  element={<Bot botInfo={bot} />}
-                />
-              ))}
-            </Routes>
-          </section>
-        </main>
-      </Layout>
-    </Router>
+    <Layout>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Overview bots={Bots} />} />
+          {Bots.map((bot: any) => (
+            <Route
+              key={bot.name}
+              path={`/${bot.name}`}
+              element={<Bot botInfo={bot} />}
+            />
+          ))}
+        </Routes>
+      </Router>
+    </Layout>
   );
 };
 

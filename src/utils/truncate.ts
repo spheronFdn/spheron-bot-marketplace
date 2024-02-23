@@ -1,3 +1,3 @@
 export const truncate = (str: string) => {
-  return str.slice(0, 16) + "...";
+  return str.slice(0, 14) + "...";
 };
