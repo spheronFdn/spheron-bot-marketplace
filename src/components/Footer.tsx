@@ -11,18 +11,18 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 flex items-center justify-between w-full border-t-[1px] text-[#44444B] py-4 px-14 bg-white">
-      <div className="text-sm cursor-default">
+    <footer className="flex flex-wrap lg:flex-nowrap justify-around lg:items-center lg:justify-between w-full border-t-[1px] text-[#44444B] py-4 px-14 bg-white mt-6">
+      <div className="text-sm cursor-default flex justify-center mb-4 lg:mb-0 font-semibold lg:font-normal w-full lg:w-auto">
         Spheron Bot Marketplace © 2024
       </div>
-      <div className="text-sm flex items-center justify-between gap-12">
+      <div className="text-sm flex flex-col justify-around lg:flex-row lg:items-center lg:justify-between lg:gap-12">
         <a
           href={BOT_MARKETPLACE_DOCUMENTATION_LINK}
           target="_blank"
           rel="noreferrer"
           className="hover:underline"
         >
-          Documentation
+          <div>Documentation</div>
         </a>
         <a
           href={SPHERON_COMMUNITY_LINK}
@@ -30,7 +30,7 @@ const Footer = () => {
           rel="noreferrer"
           className="hover:underline"
         >
-          Join Community
+          <div>Join Community</div>
         </a>
         <a
           href={BOT_MARKETPLACE_GITHUB_LINK}
@@ -38,33 +38,36 @@ const Footer = () => {
           rel="noreferrer"
           className="hover:underline"
         >
-          Github
+          <div>Github</div>
         </a>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col justify-around lg:flex-row lg:items-center lg:justify-normal lg:gap-3">
         <a
           href={BOT_MARKETPLACE_GITHUB_LINK}
           target="_blank"
           rel="noreferrer"
-          className="rounded hover:bg-[#ECECEE]"
+          className="rounded hover:bg-[#ECECEE] flex items-center"
         >
           <img src={GithubLogo} alt="github" />
+          <span className="text-sm lg:hidden">Github</span>
         </a>
         <a
           href={SPHERON_TWITTER_LINK}
           target="_blank"
           rel="noreferrer"
-          className="rounded hover:bg-[#ECECEE]"
+          className="rounded hover:bg-[#ECECEE] flex items-center"
         >
           <img src={TwitterLogo} alt="twitter" />
+          <span className="text-sm lg:hidden">Twitter</span>
         </a>
         <a
           href={SPHERON_DISCORD_LINK}
           target="_blank"
           rel="noreferrer"
-          className="rounded hover:bg-[#ECECEE]"
+          className="rounded hover:bg-[#ECECEE] flex items-center"
         >
           <img src={DiscordLogo} alt="discord" />
+          <span className="text-sm lg:hidden">Discord</span>
         </a>
       </div>
     </footer>

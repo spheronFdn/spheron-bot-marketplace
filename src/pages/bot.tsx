@@ -39,8 +39,8 @@ const Bot: FC<IBot> = ({ botInfo }) => {
   }, []); // eslint-disable-line
 
   return (
-    <main className="mx-32">
-      <section className="flex items-end justify-between mt-6">
+    <main className="mx-8 lg:mx-32">
+      <section className="flex flex-col lg:flex-row lg:items-end justify-between mt-6">
         <section>
           <section className="flex gap-4 items-center mb-3">
             <div className="cursor-pointer w-5" onClick={() => navigate("/")}>
@@ -53,7 +53,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
               Verified
             </div>
           </section>
-          <section className="flex items-center gap-6 mb-3">
+          <section className="flex flex-col md:flex-row md:items-center md:gap-6 mb-3">
             <div className="flex items-center gap-3">
               <div className="text-xs font-semibold uppercase tracking-wide">
                 Status:{" "}
@@ -70,14 +70,14 @@ const Bot: FC<IBot> = ({ botInfo }) => {
               <div className="text-xs font-semibold uppercase tracking-wide">
                 Owner:{" "}
               </div>
-              <div className="text-sm">{botInfo.address}</div>
+              <div className="text-sm overflow-x-auto">{botInfo.address}</div>
             </div>
           </section>
         </section>
         <section className="flex mb-4">
           <a
             href={botInfo.url}
-            className="ms-4 bg-[#0057FF] text-white p-2 rounded-md text-sm font-semibold"
+            className="lg:ms-4 bg-[#0057FF] text-white p-2 rounded-md text-sm font-semibold w-full lg:w-auto text-center"
           >
             Try Now!
           </a>
@@ -91,8 +91,8 @@ const Bot: FC<IBot> = ({ botInfo }) => {
         />
       </div>
       <div className="font-medium text-xl mt-6 mb-3">Overview</div>
-      <section className="flex gap-2 mb-20">
-        <section className="w-4/6">
+      <section className="flex flex-col items-center lg:items-start lg:flex-row gap-2 mb-10 lg:mb-20">
+        <section className="w-full lg:w-4/6">
           <div
             dangerouslySetInnerHTML={{
               __html: botInfo.description.replace(/\n/g, "<br>"),
@@ -100,7 +100,7 @@ const Bot: FC<IBot> = ({ botInfo }) => {
             className="text-sm"
           />
         </section>
-        <section className="text-white w-64 ml-10 flex justify-end h-32">
+        <section className="text-white w-64 ml-10 flex justify-end h-32 mt-6 lg:mt-0">
           <section className="flex flex-col gap-3 p-5 bg-[#ECECEE] w-full h-full rounded uppercase">
             <div className="flex justify-between">
               <span className="text-xs font-semibold tracking-wide text-[#2C2C30]">
