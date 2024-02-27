@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Layout from "./contexts/Layout";
 import Overview from "./pages/overview";
 import Bot from "./pages/bot";
 import Bots from "./bots.json";
-import Layout from "./components/Layout";
 
 const App = () => {
   return (

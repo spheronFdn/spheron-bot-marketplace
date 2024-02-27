@@ -2,7 +2,7 @@ import { FC, useContext, useState } from "react";
 import Card from "../components/Card";
 import HealthBar from "../components/HealthBar";
 import Tab from "../components/Tab";
-import { UserContext } from "../components/Layout";
+import { UserContext } from "../contexts/Layout";
 
 interface IOverview {
   bots: any;
@@ -16,7 +16,7 @@ const Overview: FC<IOverview> = ({ bots }) => {
     <>
       <HealthBar bots={bots} />
       <Tab allBots={allBots} setAllBots={setAllBots} user={user} />
-      <section className="flex flex-wrap">
+      <section className="flex flex-wrap justify-center md:justify-normal">
         {allBots ? (
           <>
             {bots.map((bot: any, i: number) => (
