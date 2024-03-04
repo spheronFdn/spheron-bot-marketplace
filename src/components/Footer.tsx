@@ -11,8 +11,8 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="flex flex-wrap lg:flex-nowrap justify-around lg:items-center lg:justify-between w-full border-t-[1px] text-[#44444B] py-4 px-14 bg-white mt-6">
-      <div className="text-sm cursor-default flex justify-center mb-4 lg:mb-0 font-semibold lg:font-normal w-full lg:w-auto">
+    <footer className="flex flex-wrap-reverse lg:flex-nowrap justify-around lg:items-center lg:justify-between w-full border-t-[1px] text-[#44444B] py-4 px-6 bg-white mt-6">
+      <div className="text-sm text-center cursor-default flex justify-center mt-4 lg:my-0 w-full lg:w-auto">
         Spheron Bot Marketplace © 2024
       </div>
       <div className="text-sm flex flex-col justify-around lg:flex-row lg:items-center lg:justify-between lg:gap-12">
@@ -41,7 +41,7 @@ const Footer = () => {
           <div>Github</div>
         </a>
       </div>
-      <div className="flex flex-col justify-around lg:flex-row lg:items-center lg:justify-normal lg:gap-3">
+      <div className="text-sm flex flex-col justify-around lg:flex-row lg:items-center lg:justify-normal lg:gap-3">
         <a
           href={BOT_MARKETPLACE_GITHUB_LINK}
           target="_blank"
