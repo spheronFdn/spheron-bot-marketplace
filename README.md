@@ -45,6 +45,7 @@ We built the Spheron Bot Marketplace with the following goals in mind:
   "description": "<Bot Description>",
   "url": "<Bot URL>",
   "healthUrl": "<Bot Health Check URL>",
+  "logoUrl": "<Bot Logo URL>",
   "bannerUrl": "<Bot Banner URL>",
   "socialProfile": "<Link to your Social Profile>"
 }
@@ -57,12 +58,13 @@ We built the Spheron Bot Marketplace with the following goals in mind:
 - **description:** A brief description of your bot.
 - **url:** The URL associated with your bot.
 - **healthUrl:** The health check URL for monitoring bot status.
+- **logoUrl:** Link to the logo to be displayed on the marketplace for your bot.
 - **bannerUrl:** Link to the banner to be displayed on the marketplace for your bot.
 - **socialProfile:** A link to any of your Social Profile.
 
 ### Open Source Requirement
 
-Your bot must be open-sourced. Provide a link to the GitHub repository in your JSON file.
+Your bot must be open-sourced. Please provide a link to the GitHub repository of your bot in the JSON file.
 
 ## Help
 
